@@ -12,5 +12,7 @@ namespace RentalService.ViewModels
 
         [Required]
         public string Code { get; set; }
+
+        public ICollection<CityVM> Cities { get; set; }
     }
 }
