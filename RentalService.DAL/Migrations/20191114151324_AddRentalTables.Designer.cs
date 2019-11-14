@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RentalService.DAL;
 
 namespace RentalService.DAL.Migrations
 {
     [DbContext(typeof(RentalServiceContext))]
-    partial class RentalServiceContextModelSnapshot : ModelSnapshot
+    [Migration("20191114151324_AddRentalTables")]
+    partial class AddRentalTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

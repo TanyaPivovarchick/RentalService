@@ -15,13 +15,22 @@ namespace RentalService.DAL
         {
         }
 
+        public DbSet<Brand> Brands { get; set; }
+        public DbSet<Car> Cars { get; set; }
         public DbSet<Country> Countries { get; set; }
         public DbSet<City> Cities { get; set; }
+        public DbSet<RentalCompany> RentalCompanies { get; set; }
+        public DbSet<RentalPoint> RentalPoints { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfiguration(new CountryConfiguration());
+            modelBuilder.ApplyConfiguration(new BrandConfiguration());
+            modelBuilder.ApplyConfiguration(new CarConfiguration());
             modelBuilder.ApplyConfiguration(new CityConfiguration());
+            modelBuilder.ApplyConfiguration(new CountryConfiguration());
+            modelBuilder.ApplyConfiguration(new RentalCompanyConfiguration());
+            modelBuilder.ApplyConfiguration(new RentalPointCarConfiguration());
+            modelBuilder.ApplyConfiguration(new RentalPointConfiguration());
         }
     }
 }
