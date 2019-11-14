@@ -9,6 +9,7 @@ namespace RentalService.DAL.Repositories
         private readonly RentalServiceContext db;
 
         private ICountryRepository countryRepository;
+        private ICityRepository cityRepository;
 
         private bool disposed = false;
 
@@ -22,6 +23,14 @@ namespace RentalService.DAL.Repositories
             get
             {
                 return countryRepository ??= new CountryRepository(db);
+            }
+        }
+
+        public ICityRepository CityRepository
+        {
+            get
+            {
+                return cityRepository ??= new CityRepository(db);
             }
         }
 
