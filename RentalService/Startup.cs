@@ -1,8 +1,11 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using RentalService.DAL;
+
 namespace RentalService
 {
     public class Startup
@@ -16,6 +19,9 @@ namespace RentalService
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<RentalServiceContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
             services.AddMvc(options => options.EnableEndpointRouting = false);
         }
 
