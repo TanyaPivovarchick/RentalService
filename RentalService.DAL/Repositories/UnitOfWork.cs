@@ -8,11 +8,21 @@ namespace RentalService.DAL.Repositories
     {
         private readonly RentalServiceContext db;
 
+        private ICountryRepository countryRepository;
+
         private bool disposed = false;
 
         public UnitOfWork(RentalServiceContext context)
         {
             db = context;
+        }
+
+        public ICountryRepository CountryRepository
+        {
+            get
+            {
+                return countryRepository ??= new CountryRepository(db);
+            }
         }
 
         public async Task<int> Save()

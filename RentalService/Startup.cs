@@ -4,7 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using RentalService.BL.Contracts;
+using RentalService.BL.Services;
 using RentalService.DAL;
+using RentalService.DAL.Contracts;
+using RentalService.DAL.Repositories;
 
 namespace RentalService
 {
@@ -23,6 +27,9 @@ namespace RentalService
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddMvc(options => options.EnableEndpointRouting = false);
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<ICountryService, CountryService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
