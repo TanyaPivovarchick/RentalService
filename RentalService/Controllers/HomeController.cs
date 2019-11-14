@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace RentalService.Controllers
+namespace RentalService.Web.Controllers
 {
     public class HomeController : Controller
     {

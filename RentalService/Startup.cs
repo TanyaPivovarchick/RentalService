@@ -10,7 +10,7 @@ using RentalService.DAL;
 using RentalService.DAL.Contracts;
 using RentalService.DAL.Repositories;
 
-namespace RentalService
+namespace RentalService.Web
 {
     public class Startup
     {

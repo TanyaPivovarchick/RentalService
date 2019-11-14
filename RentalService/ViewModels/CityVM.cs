@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace RentalService.ViewModels
+namespace RentalService.Web.ViewModels
 {
     public class CityVM
     {

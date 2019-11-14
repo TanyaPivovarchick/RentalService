@@ -5,9 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RentalService.BL.Contracts;
 using RentalService.BL.DTO;
-using RentalService.ViewModels;
+using RentalService.Web.ViewModels;
 
-namespace RentalService.Controllers
+namespace RentalService.Web.Controllers
 {
     public class CountryController : Controller
     {
