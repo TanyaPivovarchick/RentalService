@@ -50,10 +50,18 @@ namespace RentalService.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Create()
+        public async Task<IActionResult> Create(int? countryId, string countryName)
         {
-            var countries = await countryService.GetAllCountriesAsync();
-            ViewData["Countries"] = new SelectList(countries, "Id", "Name");
+            if (countryId == null)
+            {
+                var countries = await countryService.GetAllCountriesAsync();
+                ViewData["Countries"] = new SelectList(countries, "Id", "Name");
+            }
+            else
+            {
+                ViewData["CountryId"] = countryId;
+                ViewData["CountryName"] = countryName;
+            }
 
             return View();
         }
