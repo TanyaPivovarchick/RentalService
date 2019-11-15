@@ -11,6 +11,10 @@ namespace RentalService.DAL.Configurations
             TypeAdapterConfig<City, CityDTO>
                 .NewConfig()
                 .Map(dest => dest.CountryName, src => src.Country.Name);
+
+            TypeAdapterConfig<Car, CarDTO>
+                .NewConfig()
+                .Map(dest => dest.BrandName, src => src.Brand.Name);
         }
     }
 }
