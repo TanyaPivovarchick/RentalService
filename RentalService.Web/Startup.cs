@@ -31,6 +31,7 @@ namespace RentalService.Web
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<ICountryService, CountryService>();
             services.AddScoped<ICityService, CityService>();
+            services.AddScoped<IBrandService, BrandService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

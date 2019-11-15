@@ -7,6 +7,7 @@ namespace RentalService.DAL.Contracts
     {
         ICountryRepository CountryRepository { get; }
         ICityRepository CityRepository { get; }
+        IBrandRepository BrandRepository { get; }
 
         Task<int> Save();
     }
