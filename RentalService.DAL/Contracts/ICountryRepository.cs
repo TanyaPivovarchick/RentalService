@@ -1,5 +1,4 @@
 ﻿using RentalService.DAL.Entities;
-using System.Threading.Tasks;
 
 namespace RentalService.DAL.Contracts
 {

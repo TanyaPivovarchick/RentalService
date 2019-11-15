@@ -37,19 +37,19 @@ namespace RentalService.BL.Services
             return city.Adapt<CityDTO>();
         }
 
-        public async Task AddCity(CityDTO city)
+        public async Task AddCityAsync(CityDTO city)
         {
             db.CityRepository.Add(city.Adapt<City>());
             await db.Save();
         }
 
-        public async Task UpdateCity(CityDTO city)
+        public async Task UpdateCityAsync(CityDTO city)
         {
             db.CityRepository.Update(city.Adapt<City>());
             await db.Save();
         }
 
-        public async Task DeleteCity(int id)
+        public async Task DeleteCityAsync(int id)
         {
             var city = await db.CityRepository.GetAsync(id);
 

@@ -57,7 +57,7 @@ namespace RentalService.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                await service.AddCountry(country.Adapt<CountryDTO>());
+                await service.AddCountryAsync(country.Adapt<CountryDTO>());
 
                 return RedirectToAction(nameof(Index));
             }
@@ -92,7 +92,7 @@ namespace RentalService.Web.Controllers
             {
                 try
                 {
-                    await service.UpdateCountry(country.Adapt<CountryDTO>());
+                    await service.UpdateCountryAsync(country.Adapt<CountryDTO>());
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -135,7 +135,7 @@ namespace RentalService.Web.Controllers
         [HttpPost, ActionName("Delete")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            await service.DeleteCountry(id);
+            await service.DeleteCountryAsync(id);
 
             return RedirectToAction(nameof(Index));
         }

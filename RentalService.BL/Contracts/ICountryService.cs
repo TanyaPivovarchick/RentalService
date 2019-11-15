@@ -8,9 +8,9 @@ namespace RentalService.BL.Contracts
     {
         Task<IEnumerable<CountryDTO>> GetAllCountriesAsync();
         Task<CountryDTO> GetCountryAsync(int? id);
-        Task AddCountry(CountryDTO country);
-        Task UpdateCountry(CountryDTO country);
-        Task DeleteCountry(int id);
+        Task AddCountryAsync(CountryDTO country);
+        Task UpdateCountryAsync(CountryDTO country);
+        Task DeleteCountryAsync(int id);
         bool CountryExists(int id);
     }
 }

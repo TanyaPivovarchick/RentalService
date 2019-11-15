@@ -37,19 +37,19 @@ namespace RentalService.BL.Services
             return country.Adapt<CountryDTO>();
         }
 
-        public async Task AddCountry(CountryDTO country)
+        public async Task AddCountryAsync(CountryDTO country)
         {
             db.CountryRepository.Add(country.Adapt<Country>());
             await db.Save();
         }
 
-        public async Task UpdateCountry(CountryDTO country)
+        public async Task UpdateCountryAsync(CountryDTO country)
         {
             db.CountryRepository.Update(country.Adapt<Country>());
             await db.Save();
         }
 
-        public async Task DeleteCountry(int id)
+        public async Task DeleteCountryAsync(int id)
         {
             var country = await db.CountryRepository.GetAsync(id);
 

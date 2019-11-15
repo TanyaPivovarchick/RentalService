@@ -8,9 +8,9 @@ namespace RentalService.BL.Contracts
     {
         Task<IEnumerable<CityDTO>> GetAllCitiesAsync();
         Task<CityDTO> GetCityAsync(int? id);
-        Task AddCity(CityDTO city);
-        Task UpdateCity(CityDTO city);
-        Task DeleteCity(int id);
+        Task AddCityAsync(CityDTO city);
+        Task UpdateCityAsync(CityDTO city);
+        Task DeleteCityAsync(int id);
         bool CityExists(int id);
     }
 }

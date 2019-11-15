@@ -65,7 +65,7 @@ namespace RentalService.Web.Controllers
             {
                 try
                 {
-                    await cityService.UpdateCity(city.Adapt<CityDTO>());
+                    await cityService.UpdateCityAsync(city.Adapt<CityDTO>());
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -118,7 +118,7 @@ namespace RentalService.Web.Controllers
             {
                 try
                 {
-                    await cityService.UpdateCity(city.Adapt<CityDTO>());
+                    await cityService.UpdateCityAsync(city.Adapt<CityDTO>());
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -164,7 +164,7 @@ namespace RentalService.Web.Controllers
         [HttpPost, ActionName("Delete")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            await cityService.DeleteCity(id);
+            await cityService.DeleteCityAsync(id);
 
             return RedirectToAction(nameof(Index));
         }
