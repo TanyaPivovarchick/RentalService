@@ -1,0 +1,65 @@
+﻿@model RentalPointVM
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Delete rental point</h1>
+
+<h3>Are you sure you want to delete this?</h3>
+<hr />
+
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Address)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CityName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CityName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CompanyName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CompanyName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.RentalPointCars)
+        </dt>
+    </dl>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Car</th>
+                <th>Address</th>
+                <th>Cost</th>
+                <th>Count</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (RentalPointCarVM rentalPointCar in Model.RentalPointCars)
+            {
+                <tr id="row_@rentalPointCar.Id">
+                    <td>@rentalPointCar.CarName</td>
+                    <td>@rentalPointCar.RentalPointAddress</td>
+                    <td>@rentalPointCar.Cost</td>
+                    <td>@rentalPointCar.Count</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index">Go to Rental points</a>
+    </form>
+</div>

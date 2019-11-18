@@ -1,0 +1,59 @@
+﻿@model RentalPointVM
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create rental point</h1>
+<hr />
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="Address" class="control-label"></label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="CityName" class="control-label"></label>
+                <select asp-for="CityId" class="form-control" asp-items="ViewBag.Cities"></select>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="CompanyName" class="control-label"></label>
+                @if (ViewBag.CompanyId != null)
+                {
+                    <input asp-for="CompanyId" class="form-control" hidden value="@ViewBag.CompanyId" />
+                    <input asp-for="CompanyName" class="form-control" disabled value="@ViewBag.CompanyName" />
+                }
+                else
+                {
+                    <select asp-for="CompanyId" class="form-control" asp-items="ViewBag.Companies"></select>
+                }
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    @if (ViewBag.CompanyId != null)
+    {
+        <a asp-controller="RentalCompany" asp-action="Edit" asp-route-id="@ViewBag.CompanyId">Back to Rental company</a>
+    }
+    else
+    {
+        <a asp-action="Index">Go to Rental points</a>
+    }
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -12,6 +12,9 @@ namespace RentalService.DAL.Repositories
         private ICityRepository cityRepository;
         private IBrandRepository brandRepository;
         private ICarRepository carRepository;
+        private IRentalCompanyRepository rentalCompanyRepository;
+        private IRentalPointRepository rentalPointRepository;
+        private IRentalPointCarRepository pointCarRepository;
 
         private bool disposed = false;
 
@@ -49,6 +52,30 @@ namespace RentalService.DAL.Repositories
             get
             {
                 return carRepository ??= new CarRepository(db);
+            }
+        }
+
+        public IRentalCompanyRepository RentalCompanyRepository
+        {
+            get
+            {
+                return rentalCompanyRepository ??= new RentalCompanyRepository(db);
+            }
+        }
+
+        public IRentalPointRepository RentalPointRepository
+        {
+            get
+            {
+                return rentalPointRepository ??= new RentalPointRepository(db);
+            }
+        }
+
+        public IRentalPointCarRepository PointCarRepository
+        {
+            get
+            {
+                return pointCarRepository ??= new RentalPointCarRepository(db);
             }
         }
 

@@ -33,6 +33,9 @@ namespace RentalService.Web
             services.AddScoped<ICityService, CityService>();
             services.AddScoped<IBrandService, BrandService>();
             services.AddScoped<ICarService, CarService>();
+            services.AddScoped<IRentalCompanyService, RentalCompanyService>();
+            services.AddScoped<IRentalPointService, RentalPointService>();
+            services.AddScoped<IRentalPointCarService, RentalPointCarService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

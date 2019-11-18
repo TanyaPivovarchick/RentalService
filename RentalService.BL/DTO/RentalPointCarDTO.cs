@@ -1,15 +1,15 @@
-﻿namespace RentalService.DAL.Entities
+﻿namespace RentalService.BL.DTO
 {
-    public class RentalPointCar
+    public class RentalPointCarDTO
     {
         public int Id { get; set; }
         public double Cost { get; set; }
         public int Count { get; set; }
 
         public int RentalPointId { get; set; }
-        public RentalPoint RentalPoint { get; set; }
+        public string RentalPointAddress { get; set; }
 
         public int CarId { get; set; }
-        public Car Car { get; set; }
+        public string CarName { get; set; }
     }
 }

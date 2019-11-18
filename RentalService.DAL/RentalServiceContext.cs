@@ -21,6 +21,7 @@ namespace RentalService.DAL
         public DbSet<City> Cities { get; set; }
         public DbSet<RentalCompany> RentalCompanies { get; set; }
         public DbSet<RentalPoint> RentalPoints { get; set; }
+        public DbSet<RentalPointCar> RentalPointCars { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
