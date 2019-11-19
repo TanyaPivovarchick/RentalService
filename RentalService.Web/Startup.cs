@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -26,6 +27,13 @@ namespace RentalService.Web
             services.AddDbContext<RentalServiceContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
+                    options.AccessDeniedPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
+                });
+
             services.AddMvc(options => options.EnableEndpointRouting = false);
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -36,6 +44,7 @@ namespace RentalService.Web
             services.AddScoped<IRentalCompanyService, RentalCompanyService>();
             services.AddScoped<IRentalPointService, RentalPointService>();
             services.AddScoped<IRentalPointCarService, RentalPointCarService>();
+            services.AddScoped<IUserService, UserService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -46,6 +55,8 @@ namespace RentalService.Web
             }
 
             app.UseStaticFiles();
+
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {
