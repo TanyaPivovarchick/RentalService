@@ -22,6 +22,8 @@ namespace RentalService.DAL
         public DbSet<RentalCompany> RentalCompanies { get; set; }
         public DbSet<RentalPoint> RentalPoints { get; set; }
         public DbSet<RentalPointCar> RentalPointCars { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -32,6 +34,8 @@ namespace RentalService.DAL
             modelBuilder.ApplyConfiguration(new RentalCompanyConfiguration());
             modelBuilder.ApplyConfiguration(new RentalPointCarConfiguration());
             modelBuilder.ApplyConfiguration(new RentalPointConfiguration());
+            modelBuilder.ApplyConfiguration(new UserConfiguration());
+            modelBuilder.ApplyConfiguration(new RoleConfiguration());
         }
     }
 }
