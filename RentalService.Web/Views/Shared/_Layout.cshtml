@@ -17,40 +17,65 @@
                     <li class="nav-item">
                         <a class="nav-link navbar-brand">Service Rental</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link">Administration</a>
-                        <ul class="nav flex-column ml-3">
-                            <li class="nav-item">
-                                <a class="nav-link active" asp-controller="Brand" asp-action="Index">Brands</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link active" asp-controller="Car" asp-action="Index">Cars</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link active" asp-controller="City" asp-action="Index">Cities</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-controller="Country" asp-action="Index">Countries</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-controller="RentalCompany" asp-action="Index">Rental companies</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-controller="RentalPoint" asp-action="Index">Rental points</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link navbar-brand">Rent</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" asp-controller="RentalPointCar" asp-action="Index">Cars</a>
-                    </li>
+
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link">Administration</a>
+                            <ul class="nav flex-column ml-3">
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="Brand" asp-action="Index">Brands</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="Car" asp-action="Index">Cars</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="City" asp-action="Index">Cities</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="Country" asp-action="Index">Countries</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="RentalCompany" asp-action="Index">Rental companies</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="RentalPoint" asp-action="Index">Rental points</a>
+                                </li>
+                            </ul>
+                        </li>
+                    }
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link">Rent</a>
+                            <ul class="nav flex-column ml-3">
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="RentalPointCar" asp-action="Index">Cars</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-item">
+                            <br />
+                            <a href="#" class="nav-link" data-toggle="modal" data-target=".logout-modal">Logout</a>
+                        </li>
+                    }
                 </ul>
             </nav>
 
             <div class="col pt-2">
                 @RenderBody()
+            </div>
+        </div>
+    </div>
+
+    <div class="modal logout-modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header"><h4>Logout<i class="fa fa-lock"></i></h4></div>
+                <div class="modal-body"><i class="fa fa-question-circle"></i> Are you sure you want to log-off?</div>
+                <div class="modal-footer"><a asp-controller="Account" asp-action="Logout" class="btn btn-success btn-block">Logout</a></div>
             </div>
         </div>
     </div>
