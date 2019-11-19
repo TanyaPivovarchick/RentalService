@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Mapster;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using RentalService.Web.ViewModels;
 
 namespace RentalService.Web.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class CarController : Controller
     {
         private readonly ICarService carService;

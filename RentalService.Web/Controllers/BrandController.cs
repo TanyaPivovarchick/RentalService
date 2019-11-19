@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Mapster;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RentalService.BL.Contracts;
@@ -9,6 +10,7 @@ using RentalService.Web.ViewModels;
 
 namespace RentalService.Web.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class BrandController : Controller
     {
         private readonly IBrandService service;

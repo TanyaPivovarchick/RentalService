@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Mapster;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -22,6 +23,7 @@ namespace RentalService.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             var pointCars = await pointCarService.GetAllRentalPointCarsAsync();
@@ -30,6 +32,7 @@ namespace RentalService.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -50,6 +53,7 @@ namespace RentalService.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create(int pointId)
         {
             ViewData["RentalPointId"] = pointId;
@@ -61,6 +65,7 @@ namespace RentalService.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create(RentalPointCarVM pointCar)
         {
             if (ModelState.IsValid)
@@ -91,6 +96,7 @@ namespace RentalService.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -114,6 +120,7 @@ namespace RentalService.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(RentalPointCarVM pointCar)
         {
             if (ModelState.IsValid)
@@ -144,6 +151,7 @@ namespace RentalService.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -164,6 +172,7 @@ namespace RentalService.Web.Controllers
         }
 
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             await pointCarService.DeleteRentalPointCarAsync(id);
