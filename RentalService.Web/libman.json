@@ -5,7 +5,7 @@
     {
       "provider": "unpkg",
       "library": "bootstrap@4.3.1",
-      "destination": "lib/bootstrap/"
+      "destination": "wwwroot/lib/bootstrap/"
     },
     {
       "provider": "unpkg",
@@ -23,7 +23,7 @@
     },
     {
       "library": "jquery-validation-unobtrusive@3.2.11",
-      "destination": "wwwroot/jquery-validation-unobtrusive/"
+      "destination": "wwwroot/lib/jquery-validation-unobtrusive/"
     },
     {
       "provider": "unpkg",
@@ -33,6 +33,11 @@
         "dist/jquery.validate.js",
         "dist/jquery.validate.min.js"
       ]
+    },
+    {
+      "provider": "unpkg",
+      "library": "jquery-ui@1.12.1",
+      "destination": "wwwroot/lib/jquery-ui/"
     }
   ]
 }
