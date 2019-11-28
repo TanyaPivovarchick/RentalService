@@ -1,3 +1,4 @@
+using Hangfire;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -34,6 +35,10 @@ namespace RentalService.Web
                     options.AccessDeniedPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
                 });
 
+            services.AddHangfire(
+                x => x.UseSqlServerStorage(Configuration.GetConnectionString("DefaultConnection"))
+            );
+
             services.AddMvc(options => options.EnableEndpointRouting = false);
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -58,6 +63,12 @@ namespace RentalService.Web
             app.UseStaticFiles();
 
             app.UseAuthentication();
+
+            app.UseHangfireDashboard();
+            app.UseHangfireServer();
+
+            RecurringJob.AddOrUpdate<IReservationService>(
+                service => service.DeleteUnconfirmedRentals(), Cron.Daily);
 
             app.UseMvc(routes =>
             {
