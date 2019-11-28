@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Mapster;
 using Microsoft.AspNetCore.Authorization;
@@ -10,7 +11,6 @@ using RentalService.Web.ViewModels;
 
 namespace RentalService.Web.Controllers
 {
-    [Authorize(Roles = "Admin")]
     public class RentalCompanyController : Controller
     {
         private readonly IRentalCompanyService service;
@@ -21,6 +21,7 @@ namespace RentalService.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
             var countries = await service.GetAllRentalCompaniesAsync();
@@ -29,6 +30,7 @@ namespace RentalService.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -49,12 +51,26 @@ namespace RentalService.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
         }
 
+        [HttpGet]
+        [Authorize]
+        public ActionResult AutocompleteSearch(string term, string cityName)
+        {
+            var companies = service.FindRentalCompaniesAsync(term, cityName)
+                .GetAwaiter()
+                .GetResult()
+                .Select(c => new { value = c.Name });
+
+            return Json(companies);
+        }
+
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create(RentalCompanyVM rentalCompany)
         {
             if (ModelState.IsValid)
@@ -68,6 +84,7 @@ namespace RentalService.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -88,6 +105,7 @@ namespace RentalService.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(RentalCompanyVM rentalCompany)
         {
             if (ModelState.IsValid)
@@ -115,6 +133,7 @@ namespace RentalService.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -135,6 +154,7 @@ namespace RentalService.Web.Controllers
         }
 
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             await service.DeleteRentalCompanyAsync(id);

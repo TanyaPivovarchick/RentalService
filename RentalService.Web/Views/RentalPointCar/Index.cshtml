@@ -1,4 +1,4 @@
-﻿@model IEnumerable<RentalPointCarVM>
+﻿@model IndexRentalPointCarVM
 
 @{
     ViewData["Title"] = "Index";
@@ -6,52 +6,158 @@
 
 <h1>Rental cars</h1>
 
+<div class="row">
+    <div class="col-md-4">
+        <form>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="Filter.StartDate" class="control-label"></label>
+                <input asp-for="Filter.StartDate" class="form-control" id="startDate" />
+                <span asp-validation-for="Filter.StartDate" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Filter.EndDate" class="control-label"></label>
+                <input asp-for="Filter.EndDate" class="form-control" id="endDate" />
+                <span asp-validation-for="Filter.EndDate" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Filter.Country" class="control-label"></label>
+                <input asp-for="Filter.Country" class="form-control" id="country" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Filter.City" class="control-label"></label>
+                <input asp-for="Filter.City" class="form-control" id="city" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Filter.RentalCompany" class="control-label"></label>
+                <input asp-for="Filter.RentalCompany" class="form-control" id="rentalCompany" />
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Search" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+<br />
+
+<form method="post">
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.CarName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RentalPointAddress)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Cost)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Count)
-            </th>
+            <th>Company</th>
+            <th>Country</th>
+            <th>City</th>
+            <th>Address</th>
+            <th>Car</th>
+            <th>Cost</th>
+            <th>Count</th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model) {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CarName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RentalPointAddress)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Cost)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Count)
-                </td>
-                <td>
-                    @if (User.IsInRole("Admin"))
-                    {
-                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-secondary">Edit</a>
-                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">Details</a>
-                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
-                    }
-                    else
-                    {
-                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">Details</a>
-                    }
-                </td>
-            </tr>
+        @foreach (var item in Model.Cars)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.RentalPoint.CompanyName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RentalPoint.City.CountryName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RentalPoint.City.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RentalPoint.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CarName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cost)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Count)
+            </td>
+            <td>
+                @if (User.IsInRole("Admin"))
+                {
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-secondary">Edit</a>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">Details</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
+                }
+                else
+                {
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">Details</a>
+                }
+
+                @if (Model.Filter.StartDate != null && Model.Filter.EndDate != null)
+                {
+                    <a href="#" class="btn btn-secondary" onclick="reserve(@item.Id)">Reserve</a>
+                }
+            </td>
+        </tr>
         }
     </tbody>
 </table>
+    </form>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#country").autocomplete({
+            source: function (request, response) {
+                $.getJSON('/Country/AutocompleteSearch',
+                    {
+                        term: $("#country").val()
+                    }, response);
+            }
+        });
+
+        $("#city").autocomplete({
+            source: function (request, response) {
+                $.getJSON('/City/AutocompleteSearch',
+                    {
+                        term: $("#city").val(),
+                        countryName: $("#country").val()
+                    }, response);
+            }
+        });
+
+        $("#rentalCompany").autocomplete({
+            source: function (request, response) {
+                $.getJSON('/RentalCompany/AutocompleteSearch',
+                    {
+                        term: $("#rentalCompany").val(),
+                        cityName: $("#city").val()
+                    }, response);
+            }
+        });
+    });
+
+    var reserve = function (itemId) {
+        var dataObject = {
+            carId: itemId,
+            startDate: $('#startDate').val(),
+            endDate: $('#endDate').val()
+        };
+
+        $.ajax({
+            type: 'POST',
+            url: '/RentalPointCar/Reserve',
+            data: {
+                carId: itemId,
+                startDate: $('#startDate').val(),
+                endDate: $('#endDate').val()
+            },
+            success: function (response) {
+                window.location.href = response.redirectToUrl;
+            }
+        });
+    }
+</script>

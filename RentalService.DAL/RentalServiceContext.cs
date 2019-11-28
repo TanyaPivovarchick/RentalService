@@ -24,6 +24,7 @@ namespace RentalService.DAL
         public DbSet<RentalPointCar> RentalPointCars { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
+        public DbSet<Reservation> Reservations { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

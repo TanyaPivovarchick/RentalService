@@ -8,6 +8,7 @@ namespace RentalService.BL.Contracts
     {
         Task<IEnumerable<RentalCompanyDTO>> GetAllRentalCompaniesAsync();
         Task<RentalCompanyDTO> GetRentalCompanyAsync(int? id);
+        Task<IEnumerable<RentalCompanyDTO>> FindRentalCompaniesAsync(string searchString, string cityName);
         Task AddRentalCompanyAsync(RentalCompanyDTO rentalCompany);
         Task UpdateRentalCompanyAsync(RentalCompanyDTO rentalCompany);
         Task DeleteRentalCompanyAsync(int id);

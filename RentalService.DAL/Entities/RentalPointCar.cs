@@ -1,4 +1,6 @@
-﻿namespace RentalService.DAL.Entities
+﻿using System.Collections.Generic;
+
+namespace RentalService.DAL.Entities
 {
     public class RentalPointCar
     {
@@ -11,5 +13,7 @@
 
         public int CarId { get; set; }
         public Car Car { get; set; }
+
+        public ICollection<Reservation> Reservations { get; set; }
     }
 }

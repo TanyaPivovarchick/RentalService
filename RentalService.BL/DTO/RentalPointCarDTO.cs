@@ -7,7 +7,7 @@
         public int Count { get; set; }
 
         public int RentalPointId { get; set; }
-        public string RentalPointAddress { get; set; }
+        public BaseRentalPointDTO RentalPoint { get; set; }
 
         public int CarId { get; set; }
         public string CarName { get; set; }

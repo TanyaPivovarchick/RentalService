@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Mapster;
 using Microsoft.AspNetCore.Authorization;
@@ -11,7 +12,6 @@ using RentalService.Web.ViewModels;
 
 namespace RentalService.Web.Controllers
 {
-    [Authorize(Roles = "Admin")]
     public class CityController : Controller
     {
         private readonly ICityService cityService;
@@ -24,6 +24,7 @@ namespace RentalService.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
             var cities = await cityService.GetAllCitiesAsync();
@@ -32,6 +33,7 @@ namespace RentalService.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -52,6 +54,7 @@ namespace RentalService.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create(int? countryId, string countryName)
         {
             if (countryId == null)
@@ -69,6 +72,7 @@ namespace RentalService.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Bind("Name, CountryId")] CityVM city)
         {
             if (ModelState.IsValid)
@@ -99,6 +103,19 @@ namespace RentalService.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize]
+        public ActionResult AutocompleteSearch(string term, string countryName)
+        {
+            var cities = cityService.FindCitiesAsync(term, countryName)
+                .GetAwaiter()
+                .GetResult()
+                .Select(c => new { value = c.Name });
+
+            return Json(cities);
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -122,6 +139,7 @@ namespace RentalService.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit([Bind("Id, Name, CountryId")] CityVM city)
         {
             if (ModelState.IsValid)
@@ -152,6 +170,7 @@ namespace RentalService.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -172,6 +191,7 @@ namespace RentalService.Web.Controllers
         }
 
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             await cityService.DeleteCityAsync(id);

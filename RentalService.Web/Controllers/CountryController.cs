@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Mapster;
 using Microsoft.AspNetCore.Authorization;
@@ -10,7 +11,6 @@ using RentalService.Web.ViewModels;
 
 namespace RentalService.Web.Controllers
 {
-    [Authorize(Roles = "Admin")]
     public class CountryController : Controller
     {
         private readonly ICountryService service;
@@ -21,6 +21,7 @@ namespace RentalService.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
             var countries = await service.GetAllCountriesAsync();
@@ -29,6 +30,7 @@ namespace RentalService.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -49,12 +51,14 @@ namespace RentalService.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Bind("Name, Code")] CountryVM country)
         {
             if (ModelState.IsValid)
@@ -68,6 +72,19 @@ namespace RentalService.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize]
+        public ActionResult AutocompleteSearch(string term)
+        {
+            var countries = service.FindCountriesAsync(term)
+                .GetAwaiter()
+                .GetResult()
+                .Select(c => new { value = c.Name });
+
+            return Json(countries);
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -88,6 +105,7 @@ namespace RentalService.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit([Bind("Id, Name, Code")] CountryVM country)
         {
             if (ModelState.IsValid)
@@ -115,6 +133,7 @@ namespace RentalService.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -135,6 +154,7 @@ namespace RentalService.Web.Controllers
         }
 
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             await service.DeleteCountryAsync(id);

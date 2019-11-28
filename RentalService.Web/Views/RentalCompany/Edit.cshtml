@@ -45,7 +45,7 @@
         @foreach (RentalPointVM rentalPoint in Model.Points)
         {
             <tr id="row_@rentalPoint.Id">
-                <td>@rentalPoint.CityName</td>
+                <td>@rentalPoint.City.Name</td>
                 <td>@rentalPoint.Address</td>
                 <td>
                     <a asp-controller="RentalPoint" asp-action="Edit" asp-route-id="@rentalPoint.Id" class="btn btn-outline-dark">Edit</a>

@@ -29,9 +29,42 @@ namespace RentalService.DAL.Repositories
         {
             return await db.RentalPointCars
                 .Include(c => c.RentalPoint)
+                    .ThenInclude(p => p.City)
+                        .ThenInclude(c => c.Country)
+                .Include(c => c.RentalPoint)
+                    .ThenInclude(p => p.Company)
                 .Include(c => c.Car)
-                .AsNoTracking()
                 .ToListAsync();
+        }
+
+        public async Task<IEnumerable<RentalPointCar>> SearchAsync(string countryName, string cityName, string companyName)
+        {
+            var rentalCars = db.RentalPointCars
+                .Include(c => c.RentalPoint)
+                    .ThenInclude(p => p.City)
+                        .ThenInclude(c => c.Country)
+                .Include(c => c.RentalPoint)
+                    .ThenInclude(p => p.Company)
+                .Include(c => c.Car)
+                .Include(c => c.Reservations)
+                .AsNoTracking();
+
+            if (!string.IsNullOrWhiteSpace(countryName))
+            {
+                rentalCars = rentalCars.Where(c => c.RentalPoint.City.Country.Name == countryName);
+
+                if (!string.IsNullOrWhiteSpace(cityName))
+                {
+                    rentalCars = rentalCars.Where(c => c.RentalPoint.City.Name == cityName);
+
+                    if (!string.IsNullOrWhiteSpace(companyName))
+                    {
+                        rentalCars = rentalCars.Where(c => c.RentalPoint.Company.Name == companyName);
+                    }
+                }
+            }
+
+            return await rentalCars.ToListAsync();
         }
 
         public bool RentalPointCarExists(int id)

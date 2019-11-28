@@ -13,6 +13,11 @@ namespace RentalService.DAL.Entities
         public int CompanyId { get; set; }
         public RentalCompany Company { get; set; }
 
-        public ICollection<RentalPointCar> RentalPointCars { get; set; }
+        public virtual ICollection<RentalPointCar> RentalPointCars { get; set; }
+
+        public RentalPoint()
+        {
+            RentalPointCars = new HashSet<RentalPointCar>();
+        }
     }
 }

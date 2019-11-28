@@ -37,6 +37,13 @@ namespace RentalService.BL.Services
             return rentalCompany.Adapt<RentalCompanyDTO>();
         }
 
+        public async Task<IEnumerable<RentalCompanyDTO>> FindRentalCompaniesAsync(string searchString, string cityName)
+        {
+            var rentalCompanies = await db.RentalCompanyRepository.FindAsync(searchString, cityName);
+
+            return rentalCompanies?.Adapt<IEnumerable<RentalCompanyDTO>>();
+        }
+
         public async Task AddRentalCompanyAsync(RentalCompanyDTO rentalCompany)
         {
             db.RentalCompanyRepository.Add(rentalCompany.Adapt<RentalCompany>());

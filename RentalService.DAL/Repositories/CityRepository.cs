@@ -32,6 +32,22 @@ namespace RentalService.DAL.Repositories
                 .ToListAsync();
         }
 
+        public async Task<IEnumerable<City>> FindAsync(string searchString, string countryName)
+        {
+            var cities = db.Cities
+                .Include(c => c.Country)
+                .AsNoTracking()
+                .Where(c => c.Country.Name == countryName);
+
+
+            if (!string.IsNullOrWhiteSpace(searchString))
+            {
+                cities = cities.Where(c => c.Name.Contains(searchString));
+            }
+
+            return await cities.ToListAsync();
+        }
+
         public bool CityExists(int id)
         {
             return db.Cities.Any(c => c.Id == id);

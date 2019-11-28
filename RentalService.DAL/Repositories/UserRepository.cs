@@ -14,6 +14,11 @@ namespace RentalService.DAL.Repositories
             db = context;
         }
 
+        public Task<User> GetUserAsync(string email)
+        {
+            return db.Users.FirstOrDefaultAsync(u => u.Email == email);
+        }
+
         public Task<User> GetUserAsync(string email, string password)
         {
             return db.Users

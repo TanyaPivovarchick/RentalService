@@ -37,6 +37,13 @@ namespace RentalService.BL.Services
             return country.Adapt<CountryDTO>();
         }
 
+        public async Task<IEnumerable<CountryDTO>> FindCountriesAsync(string searchString)
+        {
+            var countries = await db.CountryRepository.FindAsync(searchString);
+
+            return countries?.Adapt<IEnumerable<CountryDTO>>();
+        }
+
         public async Task AddCountryAsync(CountryDTO country)
         {
             db.CountryRepository.Add(country.Adapt<Country>());

@@ -18,6 +18,10 @@ namespace RentalService.DAL.Entities.Configurations
                 new RentalPointCar() { Id = 7, Cost = 25, Count = 7, CarId = 4, RentalPointId = 5 },
                 new RentalPointCar() { Id = 8, Cost = 40, Count = 9, CarId = 5, RentalPointId = 5 }
             );
+
+            builder
+                .HasOne(c => c.RentalPoint)
+                .WithMany(p => p.RentalPointCars);
         }
     }
 }

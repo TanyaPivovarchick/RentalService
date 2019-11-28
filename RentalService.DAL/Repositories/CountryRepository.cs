@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RentalService.DAL.Contracts;
 using RentalService.DAL.Entities;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -21,6 +23,18 @@ namespace RentalService.DAL.Repositories
             return await db.Countries
                 .Include(c => c.Cities)
                 .FirstOrDefaultAsync(c => c.Id == id);
+        }
+
+        public async Task<IEnumerable<Country>> FindAsync(string searchString)
+        {
+            var countries = db.Countries.AsNoTracking();
+
+            if (!string.IsNullOrWhiteSpace(searchString))
+            {
+                countries = countries.Where(c => c.Name.Contains(searchString));
+            }
+
+            return await countries.ToListAsync();
         }
 
         public bool CountryExists(int id)

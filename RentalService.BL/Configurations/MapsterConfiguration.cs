@@ -16,14 +16,12 @@ namespace RentalService.DAL.Configurations
                 .NewConfig()
                 .Map(dest => dest.BrandName, src => src.Brand.Name);
 
-            TypeAdapterConfig<RentalPoint, RentalPointDTO>
+            TypeAdapterConfig<RentalPoint, BaseRentalPointDTO>
                 .NewConfig()
-                .Map(dest => dest.CityName, src => src.City.Name)
-                .Map(dest => dest.CompanyName, src => src.Company.Name);
+                .Map(dest => dest.CompanyName, src => src.Company.Name ?? string.Empty);
 
             TypeAdapterConfig<RentalPointCar, RentalPointCarDTO>
                 .NewConfig()
-                .Map(dest => dest.RentalPointAddress, src => src.RentalPoint.Address)
                 .Map(dest => dest.CarName, src => src.Car.Name);
         }
     }

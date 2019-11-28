@@ -12,9 +12,7 @@ namespace RentalService.Web.ViewModels
 
         [Required]
         public int CityId { get; set; }
-
-        [Display(Name = "City")]
-        public string CityName { get; set; }
+        public CityVM City { get; set; }
 
         [Required]
         public int CompanyId { get; set; }
@@ -23,6 +21,6 @@ namespace RentalService.Web.ViewModels
         public string CompanyName { get; set; }
 
         [Display(Name = "Cars")]
-        public ICollection<RentalPointCarVM> RentalPointCars { get; set; }
+        public virtual ICollection<RentalPointCarVM> RentalPointCars { get; set; }
     }
 }

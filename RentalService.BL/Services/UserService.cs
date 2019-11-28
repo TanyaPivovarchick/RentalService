@@ -16,6 +16,18 @@ namespace RentalService.BL.Services
             db = unitOfWork;
         }
 
+        public async Task<UserDTO> GetUserAsync(string email)
+        {
+            var user = await db.UserRepository.GetUserAsync(email);
+
+            if (user == null)
+            {
+                throw new Exception("The user doesn't exist");
+            }
+
+            return user.Adapt<UserDTO>();
+        }
+
         public async Task<UserDTO> GetUserAsync(string email, string password)
         {
             var user = await db.UserRepository.GetUserAsync(email, password);

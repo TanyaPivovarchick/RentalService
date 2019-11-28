@@ -14,6 +14,7 @@ namespace RentalService.DAL.Contracts
         IRentalPointCarRepository PointCarRepository { get; }
         IUserRepository UserRepository { get; }
         IRoleRepository RoleRepository { get; }
+        IReservationRepository ReservationRepository { get; }
 
         Task<int> Save();
     }

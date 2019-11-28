@@ -114,7 +114,7 @@ namespace RentalService.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(int id, [Bind("Id, Name, SeatCount, FuelConsumption, BrandId")] CarVM car)
+        public async Task<IActionResult> Edit(CarVM car)
         {
             if (ModelState.IsValid)
             {

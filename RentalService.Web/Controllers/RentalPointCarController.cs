@@ -1,13 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Mapster;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using RentalService.BL.Contracts;
 using RentalService.BL.DTO;
+using RentalService.BL.DTO.Filters;
 using RentalService.Web.ViewModels;
+using RentalService.Web.ViewModels.Filters;
 
 namespace RentalService.Web.Controllers
 {
@@ -15,20 +20,28 @@ namespace RentalService.Web.Controllers
     {
         private readonly IRentalPointCarService pointCarService;
         private readonly ICarService carService;
+        private readonly IReservationService reservationService;
 
-        public RentalPointCarController(IRentalPointCarService pointCarService, ICarService carService)
+        public RentalPointCarController(IRentalPointCarService pointCarService, ICarService carService, IReservationService reservationService)
         {
             this.pointCarService = pointCarService;
             this.carService = carService;
+            this.reservationService = reservationService;
         }
 
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(RentalPointCarFilterVM filter)
         {
-            var pointCars = await pointCarService.GetAllRentalPointCarsAsync();
+            var pointCars = await pointCarService.SearchAsync(filter.Adapt<RentalPointCarFilterDTO>());
 
-            return View(pointCars?.Adapt<IEnumerable<RentalPointCarVM>>());
+            var model = new IndexRentalPointCarVM
+            {
+                Filter = filter,
+                Cars = pointCars?.AsEnumerable().Adapt<IEnumerable<RentalPointCarVM>>()
+            };
+
+            return View(model);
         }
 
         [HttpGet]
@@ -176,6 +189,60 @@ namespace RentalService.Web.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             await pointCarService.DeleteRentalPointCarAsync(id);
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Reserve(int carId, DateTime startDate, DateTime endDate)
+        {
+            try
+            {
+                var reservation = await reservationService.AddReservationAsync(User.Identity.Name, carId, startDate, endDate);
+
+                TempData["reservation"] = JsonConvert.SerializeObject(reservation.Adapt<DetailedReservationVM>());
+
+                return Json(new { redirectToUrl = Url.Action(nameof(ReserveDetails), "RentalPointCar") });
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [Authorize]
+        public IActionResult ReserveDetails()
+        {
+            TempData.TryGetValue("reservation", out object reservation);
+
+            return View(JsonConvert.DeserializeObject<DetailedReservationVM>((string)reservation));
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> ReserveDetails(DetailedReservationVM reservation)
+        {
+            await reservationService.SetKeyReceiptTimeAsync(reservation.Id, reservation.KeyReceiptTime);
+
+            TempData["reservationId"] = reservation.Id;
+
+            return RedirectToAction(nameof(ConfirmRental));
+        }
+
+        [Authorize]
+        public async Task<IActionResult> ConfirmRental()
+        {
+            var reservation = await reservationService.GetReservationAsync((int)TempData["reservationId"]);
+
+            return View(reservation.Adapt<DetailedReservationVM>());
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> ConfirmRental(DetailedReservationVM reservation)
+        {
+            await reservationService.ConfirmRentalAsync(reservation.Id, reservation.Cost);
 
             return RedirectToAction(nameof(Index));
         }

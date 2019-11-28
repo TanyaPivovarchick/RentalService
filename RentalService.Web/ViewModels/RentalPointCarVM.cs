@@ -14,9 +14,7 @@ namespace RentalService.Web.ViewModels
 
         [Required]
         public int RentalPointId { get; set; }
-
-        [Display(Name = "Address")]
-        public string RentalPointAddress { get; set; }
+        public RentalPointVM RentalPoint { get; set; }
 
         [Required]
         public int CarId { get; set; }
