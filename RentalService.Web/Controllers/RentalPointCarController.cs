@@ -38,7 +38,7 @@ namespace RentalService.Web.Controllers
             var model = new IndexRentalPointCarVM
             {
                 Filter = filter,
-                Cars = pointCars?.AsEnumerable().Adapt<IEnumerable<RentalPointCarVM>>()
+                Cars = pointCars?.Adapt<IEnumerable<RentalPointCarVM>>()
             };
 
             return View(model);
@@ -223,7 +223,7 @@ namespace RentalService.Web.Controllers
         [Authorize]
         public async Task<IActionResult> ReserveDetails(DetailedReservationVM reservation)
         {
-            await reservationService.SetKeyReceiptTimeAsync(reservation.Id, reservation.KeyReceiptTime);
+            await reservationService.SetTimeForKeyAsync(reservation.Id, reservation.KeyReceiptTime, reservation.KeyReturnTime);
 
             TempData["reservationId"] = reservation.Id;
 

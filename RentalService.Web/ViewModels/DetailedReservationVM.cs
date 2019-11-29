@@ -7,6 +7,10 @@ namespace RentalService.Web.ViewModels
     {
         [Required]
         public TimeSpan KeyReceiptTime { get; set; }
+
+        [Required]
+        public TimeSpan KeyReturnTime { get; set; }
+
         public double Cost { get; set; }
     }
 }

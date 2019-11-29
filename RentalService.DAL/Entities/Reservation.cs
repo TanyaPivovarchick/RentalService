@@ -10,6 +10,7 @@ namespace RentalService.DAL.Entities
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public TimeSpan KeyReceiptTime { get; set; }
+        public TimeSpan KeyReturnTime { get; set; }
         public double Cost { get; set; }
 
         public int UserId { get; set; }

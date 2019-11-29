@@ -26,6 +26,11 @@
                 <span asp-validation-for="KeyReceiptTime" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="KeyReturnTime" class="control-label">Key return time (opening hours 09:00 to 20:00)</label>
+                <input asp-for="KeyReturnTime" class="form-control" type="time" min="09:00" max="20:00" />
+                <span asp-validation-for="KeyReturnTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Submit" class="btn btn-primary" />
             </div>
         </form>

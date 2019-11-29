@@ -8,7 +8,7 @@ namespace RentalService.BL.Contracts
     {
         Task<ReservationDTO> GetReservationAsync(int id);
         Task<ReservationDTO> AddReservationAsync(string userEmail, int carId, DateTime startDate, DateTime endDate);
-        Task SetKeyReceiptTimeAsync(int id, TimeSpan time);
+        Task SetTimeForKeyAsync(int id, TimeSpan receiptTime, TimeSpan returnTime);
         Task ConfirmRentalAsync(int id, double cost);
         Task DeleteUnconfirmedRentals();
     }

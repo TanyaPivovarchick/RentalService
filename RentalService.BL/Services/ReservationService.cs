@@ -71,11 +71,12 @@ namespace RentalService.BL.Services
             return reservationDTO;
         }
 
-        public async Task SetKeyReceiptTimeAsync(int id, TimeSpan time)
+        public async Task SetTimeForKeyAsync(int id, TimeSpan receiptTime, TimeSpan returnTime)
         {
             var reservation = await db.ReservationRepository.GetAsync(id);
 
-            reservation.KeyReceiptTime = time;
+            reservation.KeyReceiptTime = receiptTime;
+            reservation.KeyReturnTime = returnTime;
 
             db.ReservationRepository.Update(reservation);
             await db.Save();
