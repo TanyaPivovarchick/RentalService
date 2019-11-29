@@ -27,7 +27,7 @@ namespace RentalService.BL.Services
                 throw new Exception("Reservation wasn't found");
             }
 
-            int dayCount = reservation.EndDate.Subtract(reservation.StartDate).Days;
+            int dayCount = reservation.EndDate.Subtract(reservation.StartDate).Days + 1;
 
             var reservationDTO = reservation.Adapt<ReservationDTO>();
             reservationDTO.Cost = dayCount * reservationDTO.RentalPointCar.Cost;
@@ -43,12 +43,6 @@ namespace RentalService.BL.Services
             if (car == null || car.Count == 0)
             {
                 throw new Exception("This car is not available for rental");
-            }
-
-            int dayCount = endDate.Subtract(startDate).Days;
-            if (dayCount <= 0 || startDate.Subtract(DateTime.Now).Days < 0)
-            {
-                throw new Exception("Wrong dates");
             }
 
             var reservationDTO = new ReservationDTO()

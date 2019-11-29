@@ -223,11 +223,16 @@ namespace RentalService.Web.Controllers
         [Authorize]
         public async Task<IActionResult> ReserveDetails(DetailedReservationVM reservation)
         {
-            await reservationService.SetTimeForKeyAsync(reservation.Id, reservation.KeyReceiptTime, reservation.KeyReturnTime);
+            if (ModelState.IsValid)
+            {
+                await reservationService.SetTimeForKeyAsync(reservation.Id, reservation.KeyReceiptTime, reservation.KeyReturnTime);
 
-            TempData["reservationId"] = reservation.Id;
+                TempData["reservationId"] = reservation.Id;
 
-            return RedirectToAction(nameof(ConfirmRental));
+                return RedirectToAction(nameof(ConfirmRental));
+            }
+
+            return View();
         }
 
         [Authorize]

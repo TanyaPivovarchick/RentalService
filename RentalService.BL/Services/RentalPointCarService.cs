@@ -39,14 +39,14 @@ namespace RentalService.BL.Services
                 .SearchAsync(filter.Country, filter.City, filter.RentalCompany);
 
             var rentalPointCarsDTO = rentalPointCars
-                .Select(с =>
+                .Select(c =>
                 {
-                    var reservedCount = с.Reservations
-                        .Where(r => r.RentalPointCarId == с.Id && !(r.EndDate <= filter.StartDate ||
-                            r.StartDate >= filter.EndDate))
+                    var reservedCount = c.Reservations
+                        .Where(r => r.RentalPointCarId == c.Id && !(r.EndDate < filter.StartDate ||
+                            r.StartDate > filter.EndDate))
                         .Count();
 
-                    var dtoObj = с.Adapt<RentalPointCarDTO>();
+                    var dtoObj = c.Adapt<RentalPointCarDTO>();
                     dtoObj.Count -= reservedCount;
                     return dtoObj;
                 })

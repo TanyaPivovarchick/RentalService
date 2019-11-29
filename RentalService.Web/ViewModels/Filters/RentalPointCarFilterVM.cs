@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RentalService.Web.Attributes;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace RentalService.Web.ViewModels.Filters
@@ -6,12 +7,14 @@ namespace RentalService.Web.ViewModels.Filters
     public class RentalPointCarFilterVM
     {
         [Required]
+        [StartDateValidation]
         [DataType(DataType.Date)]
         [Display(Name = "Start date")]
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? StartDate { get; set; }
 
         [Required]
+        [EndDateValidation]
         [DataType(DataType.Date)]
         [Display(Name = "End date")]
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
